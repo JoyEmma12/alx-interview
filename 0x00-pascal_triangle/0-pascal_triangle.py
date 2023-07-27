@@ -17,15 +17,3 @@ def pascal_triangle(n):
         triangle.append(row)
 
     return triangle
-
-
-"""
-n = 5
-
-
-result = pascal_triangle(n)
-"""
-
-"""for row in result:
-    print(row)
-"""

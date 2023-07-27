@@ -18,6 +18,7 @@ def pascal_triangle(n):
 
     return triangle
 
+
 """
 n = 5
 

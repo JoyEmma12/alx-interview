@@ -25,5 +25,6 @@ n = 5
 result = pascal_triangle(n)
 
 
-for row in result:
+"""for row in result:
     print(row)
+"""

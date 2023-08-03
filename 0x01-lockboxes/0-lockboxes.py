@@ -18,10 +18,3 @@ def canUnlockAll(boxes):
     dfs(0, visited)
 
     return len(visited) == n
-
-
-boxes = [[1], [2], [3], []]
-print(canUnlockAll(boxes))
-
-boxes = [[1, 3], [3, 0, 1], [2], [0]]
-print(canUnlockAll(boxes))

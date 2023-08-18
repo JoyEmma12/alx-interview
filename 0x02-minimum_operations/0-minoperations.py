@@ -8,15 +8,13 @@ def minOperations(n):
     """
     if n == 1:
         return 0
-        count = 1
-        operations = 1
 
-        while count < n:
-            if count * 2 <= n:
-                count *= 2
-                operations += 1
-                else:
-                    count += 1
-                    operations += 1
+    dp = [0] * (n + 1)
 
-                return operations
+    for i in range(2, n + 1):
+        dp[i] = i  # Initialize with the maximum possible value
+        for j in range(1, i):
+            if i % j == 0:
+                dp[i] = min(dp[i], dp[j] + i // j)
+
+    return dp[n] if dp[n] != n else 0

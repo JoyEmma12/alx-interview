@@ -4,45 +4,59 @@ Game of choosing Prime numbers froma set
 """
 
 
-def sieve_of_eratosthenes(n):
-    primes = [True] * (n+1)
-    primes[0] = primes[1] = False
-    p = 2
-    while p*p <= n:
-        if primes[p]:
-            for i in range(p*p, n+1, p):
-                primes[i] = False
-        p += 1
-    return [i for i in range(n+1) if primes[i]]
+def isPrime(n):
+    """determine if a number is prime
+
+    Args:
+        n (int): number to check
+
+    Returns:
+        bool: True if n is prime, False
+    """
+    if n < 2:
+        return False
+    for i in range(2, n):
+        if n % i == 0 and i != n:
+            return False
+    return True
+
+
+def primes(n):
+    """return a list of prime numbers
+
+    Args:
+        n (int): number to check
+
+    Returns:
+        list: list of prime numbers
+    """
+    prime = []
+    for i in range(2, n + 1):
+        if isPrime(i) and i ** 2 not in prime:
+            prime.append(i)
+    return prime
 
 
 def isWinner(x, nums):
-    def can_win(n, primes):
-        dp = [False] * (n+1)
-        dp[0] = False
-        dp[1] = False
+    """determine whoo the winner of each game is
 
-        for i in range(2, n+1):
-            if i in primes:
-                dp[i] = not dp[i-1]
+    Args:
+        x (int): number of rounds
+        nums (list[int]): array of n
 
-        return dp[n]
-
-    winners = {'Maria': 0, 'Ben': 0}
-
-    for n in nums:
-        if n == 1:
-            winners['Ben'] += 1
-        else:
-            primes = sieve_of_eratosthenes(n)
-            if can_win(n, primes):
-                winners['Maria'] += 1
-            else:
-                winners['Ben'] += 1
-
-    max_wins = max(winners.values())
-
-    if list(winners.values()).count(max_wins) == 1:
-        return max(winners, key=winners.get)
-    else:
+    Returns:
+        str: name of the player that won the most rounds
+    """
+    if x is None or nums is None or x == 0 or nums == []:
         return None
+    maria, ben = 0, 0
+    for i in range(x):
+        prime = primes(nums[i])
+        if len(prime) % 2 == 0:
+            ben += 1
+        else:
+            maria += 1
+    if ben == maria:
+        return None
+
+    return "Maria" if maria > ben else "Ben"

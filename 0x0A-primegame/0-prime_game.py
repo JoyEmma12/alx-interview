@@ -3,6 +3,7 @@
 Game of choosing Prime numbers froma set
 """
 
+
 def sieve_of_eratosthenes(n):
     primes = [True] * (n+1)
     primes[0] = primes[1] = False
@@ -13,6 +14,7 @@ def sieve_of_eratosthenes(n):
                 primes[i] = False
         p += 1
     return [i for i in range(n+1) if primes[i]]
+
 
 def isWinner(x, nums):
     def can_win(n, primes):

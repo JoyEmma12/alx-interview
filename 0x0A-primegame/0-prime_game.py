@@ -1,62 +1,27 @@
 #!/usr/bin/python3
+"""Prime game module.
 """
-Game of choosing Prime numbers froma set
-"""
-
-
-def isPrime(n):
-    """determine if a number is prime
-
-    Args:
-        n (int): number to check
-
-    Returns:
-        bool: True if n is prime, False
-    """
-    if n < 2:
-        return False
-    for i in range(2, n):
-        if n % i == 0 and i != n:
-            return False
-    return True
-
-
-def primes(n):
-    """return a list of prime numbers
-
-    Args:
-        n (int): number to check
-
-    Returns:
-        list: list of prime numbers
-    """
-    prime = []
-    for i in range(2, n + 1):
-        if isPrime(i) and i ** 2 not in prime:
-            prime.append(i)
-    return prime
 
 
 def isWinner(x, nums):
-    """determine whoo the winner of each game is
-
-    Args:
-        x (int): number of rounds
-        nums (list[int]): array of n
-
-    Returns:
-        str: name of the player that won the most rounds
-    """
-    if x is None or nums is None or x == 0 or nums == []:
+    """Determines the winner of a prime game session with `x` rounds."""
+    if x < 1 or not nums:
         return None
-    maria, ben = 0, 0
-    for i in range(x):
-        prime = primes(nums[i])
-        if len(prime) % 2 == 0:
-            ben += 1
-        else:
-            maria += 1
-    if ben == maria:
+    marias_wins, bens_wins = 0, 0
+    # generate primes with a limit of the maximum number in nums
+    n = max(nums)
+    primes = [True for _ in range(1, n + 1, 1)]
+    primes[0] = False
+    for i, is_prime in enumerate(primes, 1):
+        if i == 1 or not is_prime:
+            continue
+        for j in range(i + i, n + 1, i):
+            primes[j - 1] = False
+    # filter the number of primes less than n in nums for each round
+    for _, n in zip(range(x), nums):
+        primes_count = len(list(filter(lambda x: x, primes[0:n])))
+        bens_wins += primes_count % 2 == 0
+        marias_wins += primes_count % 2 == 1
+    if marias_wins == bens_wins:
         return None
-
-    return "Maria" if maria > ben else "Ben"
+    return "Maria" if marias_wins > bens_wins else "Ben"
